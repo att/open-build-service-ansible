@@ -1,2 +1,11 @@
 ---
 # tasks file for open-build-service
+- name: Configure Open Build Service repository
+  zypper_repository:
+    name: "OBS_{{obs_version}}"
+    repo: "https://download.opensuse.org/repositories/OBS:/Server:/{{obs_version}}/openSUSE_{{opensuse_version}}/"
+    auto_import_keys: yes
+- name: Install Open Build Service pattern
+  zypper:
+    name: OBS_Server
+    type: pattern
