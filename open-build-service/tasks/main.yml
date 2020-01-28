@@ -11,3 +11,41 @@
     type: pattern
 - name: Set up signer
   include_tasks: signer.yml
+- name: Enable required backend services
+  service:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  loop:
+    - obsrepserver
+    - obssrcserver
+    - obsscheduler
+    - obsdispatcher
+    - obspublisher
+- name: Enable recommended backend services
+  service:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  loop:
+    - obsdodup
+    - obsdeltastore
+    - obssigner
+    - obssignd
+    - obsservicedispatch
+- name: Enable optional backend services
+  service:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  loop:
+    - obswarden
+    - obsapisetup
+    - obsstoragesetup
+    - obsworker
+    - obsservice
+- name: Enable MySQL
+  service:
+    name: mysql
+    enabled: yes
+    state: started
