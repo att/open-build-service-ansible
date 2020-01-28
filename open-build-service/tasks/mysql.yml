@@ -1,0 +1,49 @@
+---
+- name: Enable MySQL
+  service:
+    name: mysql
+    enabled: yes
+    state: started
+- name: Create MySQL config file
+  copy:
+    src: my.cnf
+    dest: /etc/my.cnf
+  notify:
+    - restart mysql
+- name: Initialise MySQL data directory
+  command: mysql_install_db
+  args:
+    creates: /srv/obs/MySQL
+  register: obs_mysql_initialise
+  notify:
+    - restart mysql
+- name: Set ownership on MySQL data directory
+  file:
+    path: /srv/obs/MySQL
+    owner: mysql
+    group: mysql
+    recurse: yes
+    state: directory
+- name: Force MySQL restart now if required
+  meta: flush_handlers
+- name: Set MySQL root password
+  command: mysqladmin -u root password "opensuse"
+  when: obs_mysql_initialise.changed
+- name: Check if database has been set up
+  shell: RAILS_ENV=production bin/rails db:migrate:status
+  args:
+    chdir: /srv/www/obs/api
+  changed_when: false
+  failed_when: false
+  register: obs_mysql_set_up
+- name: Set up database
+  shell: "RAILS_ENV=production bin/rails {{ item }} >> /srv/www/obs/api/log/db_migrate.log"
+  args:
+    chdir: /srv/www/obs/api
+  loop:
+    - db:create
+    - db:setup
+    - writeconfiguration
+  notify:
+    - restart obsscheduler
+  when: obs_mysql_set_up.rc > 0

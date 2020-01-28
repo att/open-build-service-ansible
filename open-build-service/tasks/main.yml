@@ -9,6 +9,12 @@
   zypper:
     name: OBS_Server
     type: pattern
+- name: Set ownership on OBS directory
+  file:
+    path: /srv/obs
+    owner: obsrun
+    group: obsrun
+    state: directory
 - name: Set up signer
   include_tasks: signer.yml
 - name: Enable required backend services
@@ -44,8 +50,11 @@
     - obsstoragesetup
     - obsworker
     - obsservice
-- name: Enable MySQL
-  service:
-    name: mysql
-    enabled: yes
-    state: started
+- name: Create repo directory
+  file:
+    path: /srv/obs/repos
+    owner: obsrun
+    group: obsrun
+    state: directory
+- name: Set up MySQL
+  include_tasks: mysql.yml

@@ -1,17 +1,23 @@
-Role Name
-=========
+open-build-service
+==================
 
-A brief description of the role goes here.
+Installs and configures the [Open Build Service (OBS)](https://openbuildservice.org/).
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role is written for OpenSUSE, and is currently tested on OpenSUSE Leap 15.1. It makes use of the `zypper` and `zypper_repository` modules, so you need to install the `python-xml` package.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+### obs_version
+
+The version of OBS to install. Only 2.10 is tested. The default is 2.10.
+
+### obs_opensuse_version
+
+The version of OpenSUSE OBS is being installed on. The default is 15.1.
 
 Dependencies
 ------------
@@ -26,6 +32,22 @@ Including an example of how to use your role (for instance, with variables passe
     - hosts: servers
       roles:
          - { role: username.rolename, x: 42 }
+
+Development
+-----------
+
+The easiest way to test your changes is using [Vagrant](https://www.vagrantup.com/). Once you have installed Vagrant, you can create and provision a VM like this:
+
+    $ cd open-build-service
+    $ vagrant up
+
+After making changes, you can run Ansible again like this:
+
+    $ vagrant provision
+
+Once you're finished, you can destroy the VM like this:
+
+    $ vagrant destroy
 
 License
 -------
