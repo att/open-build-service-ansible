@@ -15,6 +15,22 @@
     owner: obsrun
     group: obsrun
     state: directory
+- name: Install Open Build Service Commander
+  zypper:
+    name: osc
+    state: present
+- name: Install OBS service tar_scm
+  zypper:
+      name: obs-service-tar_scm
+      state: present
+- name: Install OBS service download_url
+  zypper:
+      name: obs-service-download_url
+      state: present
+- name: Install OBS service recompress
+  zypper:
+      name: obs-service-recompress
+      state: present
 - name: Set up signer
   include_tasks: signer.yml
 - name: Enable required backend services
