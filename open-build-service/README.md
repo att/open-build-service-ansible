@@ -19,6 +19,14 @@ The version of OBS to install. Only 2.10 is tested. The default is 2.10.
 
 The version of OpenSUSE OBS is being installed on. The default is 15.1.
 
+### obs_fqdn
+
+The fully qualified domain name for this OBS instance. The default is "obs.internal".
+
+### obs_cert_domains
+
+The domains to use when generating a self-signed certificate. The default is ["{{ obs_fqdn }}", "obs", "localhost"].
+
 Dependencies
 ------------
 

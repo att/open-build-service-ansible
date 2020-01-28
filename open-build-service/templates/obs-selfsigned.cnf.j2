@@ -1,0 +1,43 @@
+prompt = no
+distinguished_name  = req_distinguished_name
+
+[req_distinguished_name]
+countryName = CC
+stateOrProvinceName     = OBS Autogen State or Province
+localityName            = OBS Autogen Locality
+organizationName        = OBS Autogen Organisation
+organizationalUnitName  = OBS Autogen Organizational Unit
+commonName              = {{ obs_fqdn }}
+emailAddress            = test@email.address
+
+[req]
+req_extensions = v3_req
+distinguished_name  = req_distinguished_name
+attributes    = req_attributes
+x509_extensions = v3_ca
+
+[req_attributes]
+
+[ v3_req ]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+
+[ v3_ca ]
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid:always,issuer
+basicConstraints = CA:true
+
+[ v3_req ]
+# Extensions to add to a certificate request
+basicConstraints = critical,CA:FALSE
+keyUsage = digitalSignature, keyEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+{% for domain in obs_cert_domains %}
+DNS.{{ loop.index0 }} = {{ domain }}
+{% endfor %}
+
+[ v3_ca ]
+basicConstraints = CA:TRUE
+subjectAltName = @alt_names

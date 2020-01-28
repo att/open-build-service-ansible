@@ -58,3 +58,34 @@
     state: directory
 - name: Set up MySQL
   include_tasks: mysql.yml
+- name: Create certs directory
+  file:
+    path: /srv/obs/certs
+    mode: 0700
+    state: directory
+- name: Generate server key
+  command: openssl genrsa -out /srv/obs/certs/server.key 1024
+  args:
+    creates: /srv/obs/certs/server.key
+- name: Check if server certificate exists
+  stat:
+    path: /srv/obs/certs/server.crt
+  register: obs_server_cert_stat
+- name: Create openssl config file
+  template:
+    src: obs-selfsigned.cnf.j2
+    dest: /tmp/obs-selfsigned.cnf
+    owner: root
+    group: root
+    mode: 0600
+  when: not obs_server_cert_stat.stat.exists
+- name: Generate server certificate
+  command: openssl req -new -nodes -config /tmp/obs-selfsigned.cnf -x509 -days 365 -batch -key /srv/obs/certs/server.key -out /srv/obs/certs/server.crt
+  args:
+    creates: /srv/obs/certs/server.crt
+- name: Copy server certificate to trust anchors
+  command: cp /srv/obs/certs/server.crt /usr/share/pki/trust/anchors/obs-server.pem
+  args:
+    creates: /usr/share/pki/trust/anchors/obs-server.pem
+  notify:
+    - update ca certificates
