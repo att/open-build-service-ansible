@@ -58,6 +58,13 @@
     state: directory
 - name: Set up MySQL
   include_tasks: mysql.yml
+- name: Set ownership on API log directory
+  file:
+    path: /srv/www/obs/api/log
+    owner: wwwrun
+    group: www
+    recurse: yes
+    state: directory
 - name: Create certs directory
   file:
     path: /srv/obs/certs
@@ -89,3 +96,22 @@
     creates: /usr/share/pki/trust/anchors/obs-server.pem
   notify:
     - update ca certificates
+- name: Set up apache2
+  include_tasks: apache2.yml
+- name: Enable OBS API support target
+  service:
+    name: obs-api-support.target
+    enabled: yes
+    state: started
+- name: Open HTTPS in the firewall
+  firewalld:
+    service: https
+    immediate: yes
+    permanent: yes
+    state: enabled
+- name: Open port 82 in the firewall
+  firewalld:
+    port: 82/tcp
+    immediate: yes
+    permanent: yes
+    state: enabled

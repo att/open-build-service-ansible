@@ -1,0 +1,41 @@
+---
+- name: Install apache2 and related packages
+  zypper:
+    name: "{{ item }}"
+  loop:
+    - apache2
+    - apache2-mod_xforward
+    - rubygem-passenger-apache2
+    - memcached
+- name: Enable apache modules
+  command: "a2enmod {{ item }}"
+  register: module_enable
+  changed_when: module_enable.stdout is not search("already present")
+  loop:
+    - passenger
+    - rewrite
+    - proxy
+    - proxy_http
+    - xforward
+    - headers
+    - socache_shmcb
+  notify:
+    - restart apache2
+- name: Enable SSL flag
+  command: a2enflag SSL
+  register: flag_enable
+  changed_when: flag_enable.stdout is not search("already present")
+  notify:
+    - restart apache2
+- name: Create passenger config file
+  copy:
+    src: mod_passenger.conf
+    dest: /etc/apache2/conf.d/mod_passenger.conf
+- name: Enable web services
+  service:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  loop:
+    - apache2
+    - memcached

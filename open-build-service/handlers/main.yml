@@ -18,3 +18,7 @@
     state: restarted
 - name: update ca certificates
   command: update-ca-certificates
+- name: restart apache2
+  service:
+    name: apache2
+    state: restarted
