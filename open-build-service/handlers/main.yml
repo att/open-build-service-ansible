@@ -1,2 +1,10 @@
 ---
 # handlers file for open-build-service
+- name: reload obssrcserver
+  service:
+    name: obssrcserver
+    state: reloaded
+- name: reload obsrepserver
+  service:
+    name: obsrepserver
+    state: reloaded

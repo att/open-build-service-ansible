@@ -1,0 +1,48 @@
+---
+- name: Create OBS config file
+  template:
+    src: BSConfig.pm.j2
+    dest: /usr/lib/obs/server/BSConfig.pm
+- name: Set permissions on sign executable
+  file:
+    path: /usr/bin/sign
+    owner: root
+    group: obsrun
+    mode: 04755
+- name: Create gnupg directories
+  file:
+    path: "{{ item }}"
+    owner: root
+    group: root
+    mode: 0700
+    state: directory
+  loop:
+    - /srv/obs/gnupg
+    - /srv/obs/gnupg/phrases
+- name: Check if default GPG key exists
+  stat:
+    path: /srv/obs/obs-default-gpg.asc
+  register: obs_default_gpg_stat
+- name: Set up default GPG key configuration
+  copy:
+    src: obs-gpg
+    dest: /tmp/obs-gpg
+  when: not obs_default_gpg_stat.stat.exists
+- name: Create default GPG key
+  command: gpg2 --homedir /srv/obs/gnupg --batch --gen-key /tmp/obs-gpg
+  when: not obs_default_gpg_stat.stat.exists
+- name: Export default GPG key in ASCII format
+  shell: gpg2 --homedir /srv/obs/gnupg --export -a > /srv/obs/obs-default-gpg.asc
+  args:
+    creates: /srv/obs/obs-default-gpg.asc
+  notify:
+    - reload obssrcserver
+    - reload obsrepserver
+- name: Create empty phrases file to accept the key
+  copy:
+    content: ""
+    dest: /srv/obs/gnupg/phrases/defaultkey@localobs
+- name: Create signd config file
+  copy:
+    src: sign.conf
+    dest: /etc/sign.conf

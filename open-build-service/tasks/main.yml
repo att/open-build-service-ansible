@@ -3,9 +3,11 @@
 - name: Configure Open Build Service repository
   zypper_repository:
     name: "OBS_{{obs_version}}"
-    repo: "https://download.opensuse.org/repositories/OBS:/Server:/{{obs_version}}/openSUSE_{{opensuse_version}}/"
+    repo: "https://download.opensuse.org/repositories/OBS:/Server:/{{obs_version}}/openSUSE_{{obs_opensuse_version}}/"
     auto_import_keys: yes
 - name: Install Open Build Service pattern
   zypper:
     name: OBS_Server
     type: pattern
+- name: Set up signer
+  include_tasks: signer.yml

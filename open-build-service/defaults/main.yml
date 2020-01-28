@@ -1,4 +1,4 @@
 ---
 # defaults file for open-build-service
 obs_version: "2.10"
-opensuse_version: "15.1"
+obs_opensuse_version: "15.1"
