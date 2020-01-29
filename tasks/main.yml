@@ -86,10 +86,32 @@
     path: /srv/obs/certs
     mode: 0700
     state: directory
+- name: Copy server key
+  copy:
+    src: "{{ obs_key_path }}"
+    dest: "/srv/obs/certs/server.key"
+    owner: root
+    group: root
+    mode: 0600
+  when: obs_key_path | default(false)
+  notify:
+    - restart apache2
+- name: Copy server certificate
+  copy:
+    src: "{{ obs_cert_path }}"
+    dest: "/srv/obs/certs/server.crt"
+    owner: root
+    group: root
+    mode: 0644
+  when: obs_cert_path | default(false)
+  notify:
+    - restart apache2
 - name: Generate server key
   command: openssl genrsa -out /srv/obs/certs/server.key 1024
   args:
     creates: /srv/obs/certs/server.key
+  notify:
+    - restart apache2
 - name: Check if server certificate exists
   stat:
     path: /srv/obs/certs/server.crt
@@ -106,6 +128,8 @@
   command: openssl req -new -nodes -config /tmp/obs-selfsigned.cnf -x509 -days 365 -batch -key /srv/obs/certs/server.key -out /srv/obs/certs/server.crt
   args:
     creates: /srv/obs/certs/server.crt
+  notify:
+    - restart apache2
 - name: Copy server certificate to trust anchors
   command: cp /srv/obs/certs/server.crt /usr/share/pki/trust/anchors/obs-server.pem
   args:

@@ -27,6 +27,14 @@ The fully qualified domain name for this OBS instance. The default is "obs.inter
 
 The domains to use when generating a self-signed certificate. The default is ["{{ obs_fqdn }}", "obs", "localhost"].
 
+### obs_cert_path
+
+Path to a certificate for the web server to use. Disables self-signed certificate generation when set.
+
+### obs_key_path
+
+Path to a key for the web server to use.
+
 Dependencies
 ------------
 
