@@ -74,7 +74,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.network "private_network", ip: "192.168.82.10"
 
-  config.vm.synced_folder "../", "/vagrant"
+  config.vm.synced_folder ".", "/vagrant/open-build-service"
 
   config.vm.provision "shell", inline: <<-SHELL
     zypper install -y python-xml
