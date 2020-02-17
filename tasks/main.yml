@@ -33,6 +33,13 @@
       state: present
 - name: Set up signer
   include_tasks: signer.yml
+- name: Set permissions on run directory
+  file:
+    path: /srv/obs/run
+    owner: obsrun
+    group: obsrun
+    mode: 0775
+    state: directory
 - name: Enable required backend services
   service:
     name: "{{ item }}"
