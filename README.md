@@ -35,6 +35,30 @@ Path to a certificate for the web server to use. Disables self-signed certificat
 
 Path to a key for the web server to use.
 
+### obs_src_address
+
+Address of the source server. Defaults to localhost.
+
+### obs_repo_address
+
+Address of the repository server. Defaults to localhost.
+
+### obs_service_address
+
+Address of the service server. Defaults to localhost.
+
+### obs_cloudupload_address
+
+Address of the cloudupload server. Defaults to localhost.
+
+### obs_workersrc_address
+
+Address of the worker source server. Defaults to localhost.
+
+### obs_workerrepo_address
+
+Address of the worker repository server. Defaults to localhost.
+
 Dependencies
 ------------
 

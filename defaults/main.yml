@@ -11,3 +11,11 @@ obs_cert_domains:
 # Set these if you are providing a certificate
 #obs_cert_path: ""
 #obs_key_path: ""
+
+# Set these if you are distributing your OBS system across multiple nodes
+#obs_src_address: ""
+#obs_repo_address: ""
+#obs_service_address: ""
+#obs_cloudupload_address: ""
+#obs_workersrc_address: ""
+#obs_workerrepo_address: ""

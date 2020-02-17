@@ -46,14 +46,14 @@ if ($frontend) {
 }
 
 # Change also the SLP reg files in /etc/slp.reg.d/ when you touch hostname or port
-our $srcserver = "http://$hostname:5352";
-our $reposerver = "http://$hostname:5252";
-our $serviceserver = "http://$hostname:5152";
-our $clouduploadserver = "http://$hostname:5452"; 
+our $srcserver = "http://{{ obs_src_address | default('localhost') }}:5352";
+our $reposerver = "http://{{ obs_repo_address | default('localhost') }}:5252";
+our $serviceserver = "http://{{ obs_service_address | default('localhost') }}:5152";
+our $clouduploadserver = "http://{{ obs_cloudupload_address | default('localhost') }}:5452"; 
 
 # you can use different ports for worker connections
-#our $workersrcserver = "http://$hostname:5353";
-#our $workerreposerver = "http://$hostname:5253";
+#our $workersrcserver = "http://{{ obs_workersrc_address | default('localhost') }}:5353";
+#our $workerreposerver = "http://{{ obs_workerrepo_address | default('localhost') }}:5253";
 
 our $servicedir = "/usr/lib/obs/service/";
 #our $servicetempdir = "/srv/obs/service";
