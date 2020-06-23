@@ -27,6 +27,14 @@ The fully qualified domain name for this OBS instance. The default is "obs.inter
 
 The domains to use when generating a self-signed certificate. The default is ["{{ obs_fqdn }}", "obs", "localhost"].
 
+### obs_xdelta1_compat
+
+Enable compatibility with xdelta1. openSUSE now packages xdelta3 in a way where it pretends to be xdelta1, but not very well. This causes an issue for pristine-tar, which is sometimes used in Debian packaging, when xdelta1 was used. Setting this to true will replace the xdelta symlink from the xdelta3 package with an actual xdelta1 binary. The default is false.
+
+### obs_xdelta_rpm_filename
+
+The filename of the xdelta rpm if using xdelta1 compatibility. The default is "xdelta-1.1.4-193.d_t.3.x86_64.rpm".
+
 ### obs_cert_path
 
 Path to a certificate for the web server to use. Disables self-signed certificate generation when set.

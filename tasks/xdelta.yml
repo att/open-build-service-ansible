@@ -1,0 +1,57 @@
+---
+# openSUSE have replaced xdelta with xdelta3 despite them not being compatible.
+# This can break pristine-tar which is sometimes used in Debian package builds.
+# Here we upgrade xdelta3, lock it so that it isn't touched during normal
+# upgrades, and then place the xdelta binary back in place.
+- name: Unlock xdelta3
+  command: zypper removelock xdelta3
+  args:
+    warn: false
+- name: Install/upgrade xdelta3
+  zypper:
+    name: xdelta3
+    state: latest
+- name: Lock xdelta3
+  command: zypper addlock xdelta3
+  args:
+    warn: false
+- name: Create xdelta directory
+  file:
+    path: /usr/local/lib/xdelta
+    state: directory
+- name: Download xdelta package
+  get_url:
+    url: "https://download.opensuse.org/repositories/devel:/tools/openSUSE_Leap_15.1/x86_64/{{ obs_xdelta_rpm_filename }}"
+    dest: "/usr/local/lib/xdelta/{{ obs_xdelta_rpm_filename }}"
+  register: xdelta_package_download
+- name: Extract xdelta package
+  shell: "rpm2cpio {{ obs_xdelta_rpm_filename }} | cpio -id"
+  args:
+    chdir: /usr/local/lib/xdelta
+  when: xdelta_package_download.changed
+- name: Copy binaries
+  copy:
+    src: "/usr/local/lib/xdelta/usr/bin/{{ item }}"
+    dest: "/usr/bin/{{ item }}"
+    remote_src: yes
+    mode: preserve
+  loop:
+    - xdelta
+    - xdeltadir
+- name: Copy libraries
+  copy:
+    src: "/usr/local/lib/xdelta/usr/lib64/{{ item }}"
+    dest: "/usr/lib64/{{ item }}"
+    remote_src: yes
+    mode: preserve
+  loop:
+    - libedsio.so.0.0.0
+    - libxdelta.so.2.0.0
+- name: Link libraries
+  file:
+    path: "/usr/lib64/{{ item.path }}"
+    src: "/usr/lib64/{{ item.target }}"
+    state: link
+  loop:
+    - { path: "libedsio.so.0", target: "libedsio.so.0.0.0" }
+    - { path: "libxdelta.so.2", target: "libxdelta.so.2.0.0" }

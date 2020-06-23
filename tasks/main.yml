@@ -150,6 +150,9 @@
     name: obs-api-support.target
     enabled: yes
     state: started
+- name: Patch xdelta
+  include_tasks: xdelta.yml
+  when: obs_xdelta1_compat
 - name: Open HTTPS in the firewall
   firewalld:
     service: https
