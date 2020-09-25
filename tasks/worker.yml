@@ -7,55 +7,13 @@
     - kernel-obs-build
     - obs-common
     - obs-worker
-- name: Create worker config file
-  copy:
-    src: buildhost.config
+- name: Setup the worker buildhost.config
+  template:
+    src: buildhost.config.j2
     dest: /etc/buildhost.config
-- name: Set OBS worker directory
-  lineinfile:
-    path: /etc/buildhost.config
-    regexp: "^OBS_WORKER_DIRECTORY="
-    line: OBS_WORKER_DIRECTORY="{{ obs_worker_directory }}"
-- name: Set OBS worker repo servers
-  lineinfile:
-    path: /etc/buildhost.config
-    regexp: "^OBS_REPO_SERVERS="
-    line: OBS_REPO_SERVERS="{{ obs_repo_servers }}"
-- name: Set OBS worker cache dir
-  lineinfile:
-    path: /etc/buildhost.config
-    regexp: "^OBS_CACHE_DIR="
-    line: OBS_CACHE_DIR="{{ obs_cache_dir }}"
-- name: Set OBS worker cache size
-  lineinfile:
-    path: /etc/buildhost.config
-    regexp: "^OBS_CACHE_SIZE="
-    line: OBS_CACHE_SIZE="{{ obs_cache_size }}"
-- name: Set OBS worker instances
-  lineinfile:
-    path: /etc/buildhost.config
-    regexp: "^OBS_WORKER_INSTANCES="
-    line: OBS_WORKER_INSTANCES="{{ obs_worker_instances }}"
-- name: Set OBS worker jobs
-  lineinfile:
-    path: /etc/buildhost.config
-    regexp: "^OBS_WORKER_JOBS="
-    line: OBS_WORKER_JOBS="{{ obs_worker_jobs }}"
-- name: Set OBS worker instance memory
-  lineinfile:
-    path: /etc/buildhost.config
-    regexp: "^OBS_INSTANCE_MEMORY="
-    line: OBS_INSTANCE_MEMORY="{{ obs_instance_memory }}"
-- name: Set OBS worker VM to use hugetables
-  lineinfile:
-    path: /etc/buildhost.config
-    regexp: "^OBS_VM_USE_HUGETLBFS="
-    line: OBS_VM_USE_HUGETLBFS="{{ obs_vm_use_hugetlbfs }}"
-- name: Set OBS worker VM tmpfs
-  lineinfile:
-    path: /etc/buildhost.config
-    regexp: "^OBS_VM_USE_TMPFS="
-    line: OBS_VM_USE_TMPFS="{{ obs_vm_use_tmpfs }}"
+    owner: root
+    group: root
+    mode: 0600
 - name: Enable local build workers
   service:
     name: obsworker
