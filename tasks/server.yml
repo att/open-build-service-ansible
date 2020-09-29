@@ -152,9 +152,21 @@
     immediate: yes
     permanent: yes
     state: enabled
+- name: Open port 5152 in the firewall for workers
+  firewalld:
+    port: 5152/tcp
+    immediate: yes
+    permanent: yes
+    state: enabled
 - name: Open port 5252 in the firewall for workers
   firewalld:
     port: 5252/tcp
+    immediate: yes
+    permanent: yes
+    state: enabled
+- name: Open port 5352 in the firewall for workers
+  firewalld:
+    port: 5352/tcp
     immediate: yes
     permanent: yes
     state: enabled
