@@ -11,7 +11,6 @@
 - name: Install Worker
   include_tasks: worker.yml
   when: install_worker
-# tasks file for open-build-service
 - name: Set ownership on OBS directory
   file:
     path: /srv/obs

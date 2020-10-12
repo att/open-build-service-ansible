@@ -14,6 +14,20 @@
     owner: root
     group: root
     mode: 0600
+- name: Setup hugepages for buildworkers
+  template:
+    src: hugetlbfs.conf.j2
+    dest: /etc/sysctl.d/hugetlbfs.conf
+    owner: root
+    group: root
+    mode: 0600
+  notify:
+  - reboot
+- name: Disable firewall on workers 
+  service:
+    name: firewalld
+    enabled: no
+    state: stopped
 - name: Enable local build workers
   service:
     name: obsworker

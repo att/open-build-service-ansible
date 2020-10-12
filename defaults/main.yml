@@ -26,13 +26,43 @@ obs_xdelta_rpm_filename: xdelta-1.1.4-193.d_t.3.x86_64.rpm
 install_worker: true
 install_server: true
 
+# Virtual Machine Huge Memory Table Allocation
+vm_nr_hugepages: 60200
+
 # Build Worker Host Configuration
-obs_worker_directory: "/var/cache/obs/worker"
+obs_backend_dir: ""
+obs_run_dir: "/srv/obs/run"
+obs_log_dir: "/srv/obs/log"
+obs_base_dir: ""
+obs_api_autosetup: "no"
+obs_src_server: ""
 obs_repo_servers: "localhost:5252"
+obs_worker_instances: "8"
+obs_worker_instance_names: ""
+obs_worker_directory: "/var/cache/obs/worker"
+obs_worker_portbase: ""
+obs_worker_jobs: "3"
+obs_worker_test_mode: ""
+obs_worker_hostlabels: ""
+obs_use_slp: "yes"
 obs_cache_dir: "/var/cache/obs/worker/cache"
 obs_cache_size: "262144"
-obs_worker_instances: "8"
-obs_worker_jobs: "3"
-obs_instance_memory: "20480"
-obs_vm_use_hugetlbfs: "/dev/hugepages"
+obs_worker_nice_level: 18
+obs_vm_type: "auto"
+obs_vm_kernel: "none"
+obs_vm_initrd: "none"
+obs_vm_disk_autosetup_root_filesize: "4096"
+obs_vm_disk_autosetup_swap_filesize: "1024"
+obs_vm_disk_autosetup_filesystem: "ext3"
+obs_vm_disk_autosetup_mount_options: ""
 obs_vm_use_tmpfs: ""
+obs_vm_use_hugetlbfs: "/dev/hugepages"
+obs_instance_memory: "20480"
+obs_storage_autosetup: ""
+obs_setup_worker_partitions: "use_obs_vg"
+obs_worker_cache_size: ""
+obs_worker_root_size: ""
+obs_worker_swap_size: ""
+obs_worker_binaries_proxy: ""
+obs_root_sshd_key_url: ""
+obs_worker_script_url: ""

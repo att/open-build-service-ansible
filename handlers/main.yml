@@ -22,3 +22,5 @@
   service:
     name: apache2
     state: restarted
+- name: reboot
+  reboot:
