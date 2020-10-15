@@ -1,3 +1,6 @@
+# Copyright (c) 2020, AT&T Intellectual Property.
+#
+# SPDX-License-Identifier: BSD-3-Clause
 ---
 # openSUSE have replaced xdelta with xdelta3 despite them not being compatible.
 # This can break pristine-tar which is sometimes used in Debian package builds.

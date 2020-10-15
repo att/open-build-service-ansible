@@ -100,7 +100,7 @@ Once you're finished, you can destroy the VM like this:
 License
 -------
 
-BSD
+BSD 3-Clause
 
 Author Information
 ------------------

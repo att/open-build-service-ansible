@@ -1,3 +1,6 @@
+# Copyright (c) 2020, AT&T Intellectual Property.
+#
+# SPDX-License-Identifier: BSD-3-Clause
 ---
 # defaults file for open-build-service
 obs_version: "2.10"

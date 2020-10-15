@@ -1,3 +1,7 @@
+# Copyright (c) 2020, AT&T Intellectual Property.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
