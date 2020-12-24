@@ -49,4 +49,4 @@
     - writeconfiguration
   notify:
     - restart obsscheduler
-  when: obs_mysql_set_up.rc > 0
+  when: not ansible_check_mode and obs_mysql_set_up.rc > 0
