@@ -26,6 +26,7 @@
     mode: 0600
   notify:
   - reboot
+  - reboot message
 - name: Disable firewall on workers 
   service:
     name: firewalld

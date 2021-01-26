@@ -27,3 +27,8 @@
     state: restarted
 - name: reboot
   reboot:
+  when: ansible_connection != 'local'
+- name: reboot message
+  debug:
+    msg: Please reboot the system
+  when: ansible_connection == 'local'
