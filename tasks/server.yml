@@ -1,4 +1,4 @@
-# Copyright (c) 2020, AT&T Intellectual Property.
+# Copyright (c) 2020-2021, AT&T Intellectual Property.
 #
 # SPDX-License-Identifier: BSD-3-Clause
 ---
@@ -143,33 +143,8 @@
 - name: Patch xdelta
   include_tasks: xdelta.yml
   when: obs_xdelta1_compat
-- name: Open HTTPS in the firewall
-  firewalld:
-    service: https
-    immediate: yes
-    permanent: yes
-    state: enabled
-- name: Open port 82 in the firewall
-  firewalld:
-    port: 82/tcp
-    immediate: yes
-    permanent: yes
-    state: enabled
-- name: Open port 5152 in the firewall for workers
-  firewalld:
-    port: 5152/tcp
-    immediate: yes
-    permanent: yes
-    state: enabled
-- name: Open port 5252 in the firewall for workers
-  firewalld:
-    port: 5252/tcp
-    immediate: yes
-    permanent: yes
-    state: enabled
-- name: Open port 5352 in the firewall for workers
-  firewalld:
-    port: 5352/tcp
-    immediate: yes
-    permanent: yes
-    state: enabled
+- name: Gather service facts
+  service_facts:
+- name: Configure firewall
+  include_tasks: firewall.yml
+  when: services['firewalld.service']['state'] == 'running'
