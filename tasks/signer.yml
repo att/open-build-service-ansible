@@ -46,6 +46,9 @@
     content: ""
     dest: /srv/obs/gnupg/phrases/defaultkey@localobs
 - name: Create signd config file
-  copy:
-    src: sign.conf
+  template:
+    src: sign.conf.j2
     dest: /etc/sign.conf
+  notify:
+    - restart obssignd
+    - restart obssigner

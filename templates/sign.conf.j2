@@ -1,0 +1,9 @@
+## for build service host
+server: {{ obs_sign_server }}
+user: {{ obs_sign_user }}
+allowuser: obsrun
+
+## for sign server
+allow: 127.0.0.1
+phrases: /srv/obs/gnupg/phrases
+hash: sha256

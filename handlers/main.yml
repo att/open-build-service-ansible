@@ -25,6 +25,14 @@
   service:
     name: apache2
     state: restarted
+- name: restart obssignd
+  service:
+    name: obssignd
+    state: restarted
+- name: restart obssigner
+  service:
+    name: obssigner
+    state: restarted
 - name: reboot
   reboot:
   when: ansible_connection != 'local'

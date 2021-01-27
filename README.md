@@ -35,6 +35,14 @@ Enable compatibility with xdelta1. openSUSE now packages xdelta3 in a way where 
 
 The filename of the xdelta rpm if using xdelta1 compatibility. The default is "xdelta-1.1.4-193.d_t.3.x86_64.rpm".
 
+### obs_sign_server
+
+Address of the signing server to use. By default this is 127.0.0.1, meaning that the local signing server set up as part of the OBS server will be used. Change this if you are using a detached signing server.
+
+### obs_sign_user
+
+The user to use for signing. Note that this corresponds to the email address of the GPG key that should be used. By default this is defaultkey@localobs, and this is the address that will be used for the key generated for the local signer created by this role. If you are using a detached signing server, it is recommended that you use a different email address for the GPG key on that machine and set this variable to it.
+
 ### obs_cert_path
 
 Path to a certificate for the web server to use. Disables self-signed certificate generation when set.
